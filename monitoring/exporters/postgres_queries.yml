@@ -1,0 +1,61 @@
+pg_database:
+  query: "SELECT pg_database.datname, pg_database_size(pg_database.datname) as size FROM pg_database"
+  master: true
+  metrics:
+    - datname:
+        usage: "LABEL"
+        description: "Name of the database"
+    - size:
+        usage: "GAUGE"
+        description: "Disk space used by the database"
+
+pg_stat_activity:
+  query: |
+    SELECT
+      datname,
+      state,
+      COUNT(*) as count
+    FROM pg_stat_activity
+    WHERE state IS NOT NULL
+    GROUP BY datname, state
+  master: true
+  metrics:
+    - datname:
+        usage: "LABEL"
+        description: "Database name"
+    - state:
+        usage: "LABEL"
+        description: "Connection state"
+    - count:
+        usage: "GAUGE"
+        description: "Number of connections in this state"
+
+pg_slow_queries:
+  query: |
+    SELECT
+      query,
+      calls,
+      total_time,
+      mean_time,
+      rows
+    FROM pg_stat_statements
+    WHERE mean_time > 100
+    ORDER BY mean_time DESC
+    LIMIT 10
+  master: true
+  metrics:
+    - query:
+        usage: "LABEL"
+        description: "Query text"
+    - calls:
+        usage: "COUNTER"
+        description: "Number of times executed"
+    - total_time:
+        usage: "COUNTER"
+        description: "Total time spent in the statement"
+    - mean_time:
+        usage: "GAUGE"
+        description: "Mean time spent in the statement"
+    - rows:
+        usage: "COUNTER"
+        description: "Total number of rows retrieved or affected"

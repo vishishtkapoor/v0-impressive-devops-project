@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ecommerce
+  labels:
+    name: ecommerce
+    environment: production
+    project: devops-ecommerce
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ecommerce-monitoring
+  labels:
+    name: ecommerce-monitoring
+    environment: production
+    project: devops-ecommerce

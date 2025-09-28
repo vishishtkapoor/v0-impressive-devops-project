@@ -1,0 +1,27 @@
+# Copy this file to terraform.tfvars and fill in your values
+
+project_name = "devops-ecommerce"
+environment  = "production"
+aws_region   = "us-west-2"
+
+# Database Configuration
+db_password = "your-secure-password-here"
+
+# Networking
+vpc_cidr = "10.0.0.0/16"
+availability_zones = ["us-west-2a", "us-west-2b", "us-west-2c"]
+
+# EKS Configuration
+kubernetes_version = "1.28"
+node_instance_types = ["t3.medium"]
+node_desired_size = 3
+node_max_size = 6
+node_min_size = 1
+
+# Database Configuration
+db_instance_class = "db.t3.micro"
+db_name = "ecommerce"
+db_username = "admin"
+
+# Redis Configuration
+redis_node_type = "cache.t3.micro"
